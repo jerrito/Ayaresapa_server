@@ -1,5 +1,5 @@
 
-class HTTPExceptions extends Error{
+export class HTTPExceptions extends Error{
      errorMessage: string;
      statusCode:number;
     constructor(errorMessage: string,statusCode:number){

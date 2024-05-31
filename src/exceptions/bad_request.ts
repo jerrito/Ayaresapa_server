@@ -1,3 +1,4 @@
+import { HTTPExceptions } from "./root";
 
 
 export class BadRequest extends HTTPExceptions{

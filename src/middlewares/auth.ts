@@ -34,7 +34,7 @@ try{
     next();
 
   }catch(e){
-    throw new UnAuthorized("unAuthorzed")
+    throw new UnAuthorized("Unauthorized")
   }
     
 

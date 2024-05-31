@@ -1,3 +1,4 @@
+import { HTTPExceptions } from "./root";
 
 
 export class UnAuthorized extends HTTPExceptions{

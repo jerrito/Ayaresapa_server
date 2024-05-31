@@ -1,6 +1,7 @@
 import session from "express-session";
 import  Express, { Request,Response }  from "express";
 import { mongooseDatabase } from "./database";
+import { errorMiddleware } from "./middlewares/error";
 // import { port } from "./secrets";
 
 const express=Express();
@@ -29,5 +30,6 @@ app.get("/home",(req:Request,res:Response)=>{
 
 
 
+app.use(errorMiddleware);
 
 app.listen(Number(4000))
