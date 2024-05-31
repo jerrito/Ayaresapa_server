@@ -7,18 +7,21 @@ const authRouter:Router=express.Router();
 
 export const signup=async(req:Request,res:Response)=>{
   const {email,first_name,last_name,password}=req.body;
+  
    let user= await userModel.findOne({
     email:email
    });
-   if(userModel){
+   if(user){
     throw  Error("");
    };
-  const users=await  userModel.create({
-    email,
+   const passwordHashed= hashSync(password,10);
+   user=new userModel(
     first_name,
     last_name,
-    password:hashSync(password,10)
-   });
+    email,
+    passwordHashed
+   );
+   await user.save();
    res.status(200).json(user);
 }
 
@@ -35,7 +38,7 @@ export const signin=async(req:Request,res:Response)=>{
     throw Error("");
   }
   const token= jwt.sign({
-  userId:user
+  userId:user._id
   },"");
 
   res.status(200).json({"user":user,"token": token});
