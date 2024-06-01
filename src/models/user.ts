@@ -18,7 +18,14 @@ const userSchema=new mongoose.Schema({
     password:{
         required:true,
         type:String,      
-    }   
+    },
+    profile:{
+        required:true,
+        type:Uint8Array
+    },
+    allergies:{
+        type:[]
+    }  
 });
 
 export const userModel=mongoose.model("user",userSchema)

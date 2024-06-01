@@ -27,7 +27,7 @@ try{
     }
 
     const user=await userModel.findOne({
-        user_id:chec.userId
+        id:chec.userId
     });
 
     req.user=user;

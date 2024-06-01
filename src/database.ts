@@ -1,10 +1,15 @@
 import  mongoose from "mongoose";
 import { databaseUrl } from "./secrets";
 
-const database=databaseUrl;
 
-export const mongooseDatabase=mongoose.connect(database!).then((value)=>{
-
-    console.log("Conneted successfully");
+export const mongooseDatabase=async()=>{
+   try{
+ await mongoose.connect(databaseUrl).then((value)=>
+  console.log("Connected successfully")   
+);
+}
+catch(e){
+     console.log("Unssuccessful");
+  }   
+}
     
-}).catch();
