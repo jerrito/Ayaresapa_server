@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { BadRequest } from "../exceptions/bad_request";
-import { UnAuthorized } from "../exceptions/un_authorized";
+import { UnAuthorizedException } from "../exceptions/un_authorized";
 import * as jwt from "jsonwebtoken";
 import { tokenKey } from "../secrets";
 import { userModel } from "../models/user";
@@ -10,31 +10,32 @@ export const authMiddleware=async(req:Request, res:Response, next:NextFunction)=
 try{
     //get token
     const token=req.headers.authorization;
+    
 
     // verify token
     if(!token){
-  throw new UnAuthorized(
+  throw new UnAuthorizedException(
     "Unauthorized"
-  )
+  );
     }
   
-    const chec=jwt.verify(
+    const tokenVerify=jwt.verify(
         token!
     ,tokenKey) as any;
     
-    if(!chec){
-        throw new UnAuthorized("Unauthorized");
+    if(!tokenVerify){
+        throw new UnAuthorizedException("Unauthorized");
     }
 
     const user=await userModel.findOne({
-        id:chec.userId
+        id:tokenVerify.userId
     });
 
     req.user=user;
     next();
 
   }catch(e){
-    throw new UnAuthorized("Unauthorized")
+    throw new UnAuthorizedException("Unauthorized")
   }
     
 

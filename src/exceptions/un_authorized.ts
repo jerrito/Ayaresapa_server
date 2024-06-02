@@ -1,7 +1,7 @@
 import { HTTPExceptions } from "./root";
 
 
-export class UnAuthorized extends HTTPExceptions{
+export class UnAuthorizedException extends HTTPExceptions{
 
     constructor(errorMessage:string){
         super(errorMessage, 401);

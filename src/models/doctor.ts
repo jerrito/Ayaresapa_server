@@ -13,11 +13,21 @@ const doctorSchema=new mongoose.Schema({
     },
     email:{
         required:true,
-        type:String,        
+        type:String, 
+        validation:{
+            validate:(value:String)=>{
+                return value;
+            }
+        }        
     },
     password:{
         required:true,
-        type:String,      
+        type:String,  
+        validation:{
+            validate:(value:String)=>{
+                return value.length>=6;
+            }
+        }     
     },
     experience:{
         required:true,
@@ -46,23 +56,6 @@ const doctorSchema=new mongoose.Schema({
       
 });
 
-const appointment=new mongoose.Schema({
-  time:{
-    type:String,
-    required:true
-  } ,
-  doctorId:{
-    required:true,
-    type:String
-  },
-  isValid:{
- type:Boolean
-  },
-  reason:{
-    type:String,
-    required:true
-  },
-  allergies:{
-    type:[],
-  } 
-})
+
+
+export const doctorModel= mongoose.model("doctor",doctorSchema);

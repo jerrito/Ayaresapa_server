@@ -1,32 +1,33 @@
 import express, { Router,Request, Response, NextFunction } from 'express';
-import { userModel } from '../models/user';
+import { userModel } from '../../models/user';
 import {hashSync,compareSync} from "bcryptjs";
 import * as jwt from "jsonwebtoken";
-import { tokenKey } from '../secrets';
-import { userSchema } from '../models/user_validation';
+import { tokenKey } from '../../secrets';
+import { userSchema } from '../../models/user_validation';
+import { doctorModel } from '../../models/doctor';
+import { BadRequest } from '../../exceptions/bad_request';
 const authRouter:Router=express.Router();
 
 
-export const signup=async(req:Request,res:Response,next:NextFunction)=>{
+export const signupUser=async(req:Request,res:Response,next:NextFunction)=>{
   const {email,first_name,last_name,password}=req.body;
 
-   userSchema.parse(req.body);
   
    let user= await userModel.findOne({
     email:email
    });
-   if(user){
-    throw  Error("");
+   if(!user){
+    throw  new BadRequest("User not found");
    };
    const passwordHashed= hashSync(password,10);
-   user=new userModel(
+   let newUser=new userModel({
     first_name,
     last_name,
     email,
-   // passwordHashed
-   );
-   await user.save();
-   res.status(200).json(user);
+    passwordHashed
+  } );
+  newUser= await newUser.save();
+   res.status(200).json(newUser);
 }
 
 export const signin=async(req:Request,res:Response,next:NextFunction)=>{
@@ -35,11 +36,11 @@ export const signin=async(req:Request,res:Response,next:NextFunction)=>{
         email
     });
     if(!user){
-        throw Error("");
+        throw new BadRequest("User not found");
     }
     const passwordCheck=await compareSync(password,user.password);
   if(!passwordCheck){
-    throw Error("");
+    throw new BadRequest("Password incorrect");
   }
   const token= jwt.sign({
   userId:user.id
@@ -53,3 +54,5 @@ export const loggedInUser=(req:Request,res:Response,next:NextFunction)=>{
    const user=req.user;
   res.status(200).json(user)
 }
+
+

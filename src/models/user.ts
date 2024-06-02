@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-
+import {z} from "zod";
 const userSchema=new mongoose.Schema({
     first_name:{
         type:String,
@@ -13,11 +13,21 @@ const userSchema=new mongoose.Schema({
     },
     email:{
         required:true,
-        type:String,        
+        type:String,   
+        validation:{
+            validate:()=>{
+                return z.string().email();
+            }
+        }     
     },
     password:{
         required:true,
-        type:String,      
+        type:String,  
+        validation:{
+            validate:(value:String)=>{
+                return value.length>=6;
+            }
+        }    
     },
     profile:{
         required:true,
