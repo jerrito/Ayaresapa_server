@@ -1,7 +1,8 @@
 import session from "express-session";
-import  express, {Express }  from "express";
+import  express, {Express,Request,Response }  from "express";
 import { errorMiddleware } from "./middlewares/error";
 import { port } from "./secrets";
+import rootRouter from './routes/root';
 import  mongoose from "mongoose";
 import { databaseUrl } from "./secrets";
 // import { port } from "./secrets";
@@ -12,6 +13,8 @@ const app:Express=express();
 
 app.use(express.json());
 
+
+app.use("api/",rootRouter);
 // database connect
 // mongooseDatabase();
 
@@ -32,13 +35,12 @@ mongoose.connect(databaseUrl).then(()=>
 //     },),);
 
   
-// app.get("/home",(req:Request,res:Response)=>{
-//     // req.session.isAuth=true;
-//     console.log(req.session);
-//     console.log(req.session.id);
+app.get("/home",(req:Request,res:Response)=>{
+   
+    res.status(200).json("hhhh")
     
-// } 
-// )   
+} 
+)   
 
 
 

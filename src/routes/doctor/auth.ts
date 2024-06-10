@@ -16,3 +16,5 @@ doctorAuthRouter.get("/signin", errorHandler(signinDoctor));
 // logged in user
 doctorAuthRouter.get("/doctor",errorHandler(loggedInDoctor));
 
+
+export default doctorAuthRouter;

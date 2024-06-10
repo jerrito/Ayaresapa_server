@@ -8,15 +8,15 @@ const userAuthRouter:Router=express.Router();
 
 
 // signup
-userAuthRouter.post("/auth/signup",errorHandler(signupUser));
+userAuthRouter.post("/signup",errorHandler(signupUser));
 
 
 // signin
-userAuthRouter.get("/auth/signin",errorHandler(signin));
+userAuthRouter.get("/signin",errorHandler(signin));
 
 
 // loggedInUser
-userAuthRouter.get("/auth/me",[authMiddleware],errorHandler(loggedInUser));
+userAuthRouter.get("/me",[authMiddleware],errorHandler(loggedInUser));
 
 
 export default userAuthRouter;

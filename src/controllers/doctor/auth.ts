@@ -12,7 +12,7 @@ export const signupDoctor=async(req:Request,res:Response,next:NextFunction)=>{
   
     //  userSchema.parse(req.body);
     
-     let doctor= await doctorModel.findOne({
+     const doctor= await doctorModel.findOne({
       email:email
      });
      if(!doctor){

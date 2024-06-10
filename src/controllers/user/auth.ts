@@ -3,10 +3,8 @@ import { userModel } from '../../models/user';
 import {hashSync,compareSync} from "bcryptjs";
 import * as jwt from "jsonwebtoken";
 import { tokenKey } from '../../secrets';
-import { userSchema } from '../../models/user_validation';
 import { doctorModel } from '../../models/doctor';
 import { BadRequest } from '../../exceptions/bad_request';
-const authRouter:Router=express.Router();
 
 
 export const signupUser=async(req:Request,res:Response,next:NextFunction)=>{
@@ -34,7 +32,7 @@ export const signin=async(req:Request,res:Response,next:NextFunction)=>{
     const {email,password}=req.body;
     const user=await userModel.findOne({
         email
-    });
+    }) as any;
     if(!user){
         throw new BadRequest("User not found");
     }
@@ -46,13 +44,13 @@ export const signin=async(req:Request,res:Response,next:NextFunction)=>{
   userId:user.id
   },tokenKey);
 
-  res.status(200).json({"user":user,"token": token});
+  res.status(200).json({"user":user._doc,"token": token});
 
 }
 
 export const loggedInUser=(req:Request,res:Response,next:NextFunction)=>{
-   const user=req.user;
-  res.status(200).json(user)
+   
+ return res.status(200).json(req?.user)
 }
 
 

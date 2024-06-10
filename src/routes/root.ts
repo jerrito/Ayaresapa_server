@@ -1,8 +1,17 @@
 import express from "express";
 import userAuthRouter from "./user/auth";
+import doctorAuthRouter from "./doctor/auth";
 
 const rootRouter=express.Router();
 
-rootRouter.use(userAuthRouter)
+// user
+rootRouter.use("/auth",userAuthRouter)
+
+
+
+// doctor
+rootRouter.use("/auth",doctorAuthRouter)
+
+export default rootRouter;
 
 
